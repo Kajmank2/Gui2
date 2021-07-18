@@ -4,11 +4,13 @@ import re
 from functools import reduce
 from tkinter import filedialog
 from  tkinter import messagebox as ms
+import Method as m
 import tkinter as tk
 import os
-
-
+Pi=3.14
+ListPOI=[] #List which contains POI #X #Y
 def InitGui():
+    # GUI ELEMENTS
     main_window=tk.Tk()
     labelkDvalue = tk.StringVar()
     labelkCvalue = tk.StringVar()
@@ -23,7 +25,6 @@ def InitGui():
     labelBattery.set("1")
     labelIterationNumb.set("20")
     labelMuttiruns.set("1")
-
     def choiceD(text):
         valuesRadiokDstate.set(text)
     def choiceC(text):
@@ -62,7 +63,7 @@ def InitGui():
         print(valuesRadiokCstate.get())
         print(valuesRadiokDstate.get())
         print(valuesRadiokDCstate.get())
-    #TEST BUTTON
+
     tk.Label(main_window, text="Probability").grid(row=12)
     tk.Label(text="prob kD").grid(row=13,column=0)
     tk.Entry(main_window, textvariable=labelkDvalue, width=10, borderwidth=5).grid(row=14,column=0)
@@ -78,5 +79,25 @@ def InitGui():
     tk.Entry(main_window, textvariable=labelMuttiruns, width=10, borderwidth=5).grid(row=17, column=1)
     tk.Label(text="set seed").grid(row=18, column=0)
     tk.Entry(main_window, textvariable=labelSetSeed, width=10, borderwidth=5).grid(row=18, column=1)
-    tk.Button()
+    tk.Button(main_window,text="Start",command=m.Start).grid(row=19,column=1)
+    #==========================================================#
+    #GUI DATA - > #READ POI #READ DATA X,Y
+    tk.Button(main_window, text="READ WSN", command=m.OpenSensorWSN).grid(row=19, column=4)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     main_window.mainloop()
