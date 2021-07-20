@@ -1,17 +1,21 @@
-import random
 import GUI as g
+import Iteration as it
 import csv
+from random import *
 import re
 from functools import reduce
 from tkinter import filedialog
 from  tkinter import messagebox as ms
-import Method as m
 import tkinter as tk
 ListData = []  # Reading List Of Data #X #Y
 ListPOI = []  # List which contains POI #X #Y
 Radius=''
 radiusTxt='' #Files which contain name of FIle
-STATE=[]
+STATE=[] # STATES
+RULES=[] #RULES
+K=[]
+BATTERY_STATE=[] # List with lifetime battery
+ALIVE_DEAD=[] #ALIVE OF SENSOR
 AmountWSN=0
 ListofNeighbour=[] #List which contains neighbour
 def donothing():
@@ -19,6 +23,7 @@ def donothing():
 
 def OpenSensorWSN():
     #LOAD POI
+    global AmountWSN
     global Radius # assigment variable global
     with open("POI36.csv") as file:  # CHANGE TO PO 4412
         reader = csv.reader(file)
@@ -28,7 +33,7 @@ def OpenSensorWSN():
         #text_file = filedialog.askopenfilename(initialdir="C:/", title="Open TextFile",
         #                                       filetypes=(("Text Files", "*.txt"),))
         #text_file = open(text_file, 'r')
-        text_file=open('WSN-12d-r35.txt','r')
+        text_file=open('WSN-5d-r35.txt','r')
         radiusTxt=text_file.name
         radius=''
         #RADIUS VALUE FROM FILE
@@ -49,12 +54,14 @@ def OpenSensorWSN():
 
 def Start():
     print(ListPOI)
-
+    global  STATE
+    global  RULES
     #Iteration
     t=0
-    #NEIGHBOR
+    #NEIGHBOR FILE TXT
     ListSensorneigh=[]
-    #RandomState
+    #NEigh every singe Sensor
+    Neighb=[]
     def OpenMYSensorNeighbour():  # find WSN grapph
 
         # LIST NEIGTBOUR
@@ -95,16 +102,17 @@ def Start():
                     donothing()
                 else:
                     if (len(xs) < 3):
-                        ys += xs[0] + " "
+                        ys += xs[0] + ""
                         helper = helper + 1
                     else:
-                        ys += xs[0:2] + " "
+                        ys += xs[0:2] + ""
                         helper = helper + 1
                 id = id + 1
             ListSensorneigh.append(str(counter) + "    " + str(helper) + "     " + ys)
+            Neighb.append(ys)
             ys = ""
             counter = counter + 1
-        print(ListSensorneigh)
+        print(Neighb)
 
         def SaveFileSenss():
             with open("sensor-neighbours .txt", 'w') as file:
@@ -115,5 +123,40 @@ def Start():
         SaveFileSenss()
     #Call Neighbour
     OpenMYSensorNeighbour()
+    #STATE LIST | RANDOM STATE FORM 0,1
+    for x in range(int(AmountWSN)):
+        STATE.append(randint(0,1))
+    print("FIRST STATE ")
+    print(STATE)
+    #RULES LIST => Values [1-3]
+    for x in range(int(AmountWSN)):
+        helper=random()
+        if(float(g.labelkDvalue.get())>helper):
+            print("KD")
+            RULES.append(1)
+        elif(float(g.labelkDvalue.get())+(float(g.labelkCvalue.get()))>helper):
+            print("KC")
+            RULES.append(2)
+        else:
+            print('KDC')
+            RULES.append(3)
+    print(RULES)
+    # K -APPROACH [1..N]
+    for x in range(int(AmountWSN)):
+        if(RULES[x]==1):
+            K.append(g.valuesRadiokDstate.get())
+        elif (RULES[x] == 2):
+            K.append(g.valuesRadiokCstate.get())
+        else:
+            K.append(g.valuesRadiokDCstate.get())
+    print(K)
+    # Battery State [1..N]
+    for x in range(int(AmountWSN)):
+        BATTERY_STATE.append(g.labelBattery.get())
+    print(BATTERY_STATE)
+
+
+
+
 
 

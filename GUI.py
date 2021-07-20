@@ -9,20 +9,41 @@ import tkinter as tk
 import os
 Pi=3.14
 ListPOI=[] #List which contains POI #X #Y
+#LABELS VALUE
+labelkDvalue = ""
+labelkCvalue = ""
+labelkDCvalue = ""
+labelBattery=""
+labelIterationNumb=""
+labelMuttiruns=""
+labelSetSeed=""
+#1-10 KC-KD-KDC
+valuesRadiokCstate=""
+valuesRadiokDstate=""
+valuesRadiokDCstate=""
+#BAttery STATE
+labelBattery=""
 def InitGui():
-    # GUI ELEMENTS
+    #GLOVAL VALUE TO METHODS
+    global labelkCvalue
+    global labelkDvalue
+    global labelkDvalue
+    global valuesRadiokCstate
+    global valuesRadiokDstate
+    global valuesRadiokDCstate
+    global labelBattery
     main_window=tk.Tk()
     labelkDvalue = tk.StringVar()
     labelkCvalue = tk.StringVar()
     labelkDCvalue = tk.StringVar()
-    labelBattery=tk.StringVar()
-    labelIterationNumb=tk.StringVar()
-    labelMuttiruns=tk.StringVar()
-    labelSetSeed=tk.StringVar()
+    labelBattery = tk.StringVar()
+    labelIterationNumb = tk.StringVar()
+    labelMuttiruns = tk.StringVar()
+    labelSetSeed = tk.StringVar()
     labelkDvalue.set("0.33")
     labelkCvalue.set("0.33")
     labelkDCvalue.set("0.34")
-    labelBattery.set("1")
+    labelBattery.set("10")
     labelIterationNumb.set("20")
     labelMuttiruns.set("1")
     def choiceD(text):
