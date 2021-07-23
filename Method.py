@@ -187,13 +187,37 @@ def Start():
     print(StateListNeigh)
     #BEFORE START ASSIGN SOME VARIABLE
     ii=0
-
+    NewState=[]
     def MainIter():
-        for i in range(10):
+        #for i in range(12):
+            iter = 0
+        #FIrst ITeration
             for x in RULES:
-                for y in STATE:
-                    if(x==1):
-                        x=0
+                if(x==1):# StateListNeigh[iter][2]<K[iter]
+                    if(int(StateListNeigh[iter][2])<= int(K[iter])):
+                        NewState.append(1)
+                        iter+=1
+                    else:
+                        NewState.append(0)
+                        iter += 1
+                elif(x==2):
+                    if ( int(StateListNeigh[iter][0])<= int(K[iter])):
+                        NewState.append(1)
+                        iter += 1
+                    else:
+                        NewState.append(0)
+                        iter += 1
+                else:
+                    if (int(StateListNeigh[iter][2])>= int(K[iter])):
+                        NewState.append(1)
+                        iter += 1
+                    else:
+                        NewState.append(0)
+                        iter += 1
+    MainIter()
+    print(NewState)
+
+
 
 
 
