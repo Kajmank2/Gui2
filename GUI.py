@@ -58,8 +58,8 @@ def InitGui():
     valuesRadiokC = {"0C": "0", "1C": "1", " 2C": "2", "3C": "3", "4C": '4', "5C": '5', "6C": '6', '7C': '7', '8C': '8',
                      '9C': '9', '10C': '10'}
     valuesRadiokCstate = tk.StringVar(main_window, '2')
-    valuesRadiokDC = {"0C": "0", "1C": "1", " 2C": "2", "3C": "3", "4C": '4', "5C": '5', "6C": '6', '7C': '7', '8C': '8',
-                     '9C': '9', '10C': '10'}
+    valuesRadiokDC = {"0DC": "0", "1DC": "1", " 2DC": "2", "3DC": "3", "4DC": '4', "5DC": '5', "6DC": '6', '7DC': '7', '8DC': '8',
+                     '9DC': '9', '10DC': '10'}
     valuesRadiokDCstate = tk.StringVar(main_window, '2')
     tk.Label(main_window,text="kD").grid(row=0,column=0)
     iterKd=1

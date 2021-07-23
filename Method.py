@@ -7,6 +7,16 @@ from functools import reduce
 from tkinter import filedialog
 from  tkinter import messagebox as ms
 import tkinter as tk
+#VALUE TO SAVE
+q=0
+f_alavie=0
+minBatt=0
+avBatt=0
+maxBatt=0
+freq_kD=0
+freq_kC=0
+
+
 ListData = []  # Reading List Of Data #X #Y
 ListPOI = []  # List which contains POI #X #Y
 Radius=''
@@ -33,7 +43,7 @@ def OpenSensorWSN():
         #text_file = filedialog.askopenfilename(initialdir="C:/", title="Open TextFile",
         #                                       filetypes=(("Text Files", "*.txt"),))
         #text_file = open(text_file, 'r')
-        text_file=open('WSN-5d-r35.txt','r')
+        text_file=open('WSN-12d-r35.txt','r')
         radiusTxt=text_file.name
         radius=''
         #RADIUS VALUE FROM FILE
@@ -102,10 +112,10 @@ def Start():
                     donothing()
                 else:
                     if (len(xs) < 3):
-                        ys += xs[0] + ""
+                        ys += xs[0] + " "
                         helper = helper + 1
                     else:
-                        ys += xs[0:2] + ""
+                        ys += xs[0:2] + " "
                         helper = helper + 1
                 id = id + 1
             ListSensorneigh.append(str(counter) + "    " + str(helper) + "     " + ys)
@@ -154,6 +164,39 @@ def Start():
     for x in range(int(AmountWSN)):
         BATTERY_STATE.append(g.labelBattery.get())
     print(BATTERY_STATE)
+    #Read neighb of onn LIST
+    StateListNeigh = []
+    def ReadState():
+        i = 1
+        for x in Neighb:
+            c=0
+            d=0
+            i = 1
+            for y in STATE:
+                if (x.find(str(i)+' ')==-1):
+                    i += 1
+                    continue
+                else:
+                    if (y==1):
+                        c+=1
+                    else:
+                        d+=1
+                    i+=1
+            StateListNeigh.append(str(c) + " " + str(d))
+    ReadState()
+    print(StateListNeigh)
+    #BEFORE START ASSIGN SOME VARIABLE
+    ii=0
+
+    def MainIter():
+        for i in range(10):
+            for x in RULES:
+                for y in STATE:
+                    if(x==1):
+                        x=0
+
+
+
 
 
 
