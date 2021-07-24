@@ -162,7 +162,7 @@ def Start():
     print(K)
     # Battery State [1..N]
     for x in range(int(AmountWSN)):
-        BATTERY_STATE.append(g.labelBattery.get())
+        BATTERY_STATE.append(int(g.labelBattery.get()))
     print(BATTERY_STATE)
     #Read neighb of onn LIST
     #BEFORE START ASSIGN SOME VARIABLE
@@ -172,7 +172,7 @@ def Start():
         NewState = []
         StateListNeigh = []
         global STATE
-        for i in range(5):
+        for i in range(15):
             iter = 0
             def ReadState():
                 for x in Neighb:
@@ -195,30 +195,37 @@ def Start():
             NewState.clear()
         #=====================================================================
         #FIrst ITeration
+            iterr = 0
             for x in RULES:
                 if(x==1):# StateListNeigh[iter][2]<K[iter]
-                    if(int(StateListNeigh[iter][2])<= int(K[iter])):
+                    if(int(StateListNeigh[iter][2])<= int(K[iter]) and BATTERY_STATE[iterr]>0):
                         NewState.append(1)
                         iter+=1
                     else:
                         NewState.append(0)
                         iter += 1
                 elif(x==2):
-                    if ( int(StateListNeigh[iter][0])<= int(K[iter])):
+                    if ( int(StateListNeigh[iter][0])<= int(K[iter])and BATTERY_STATE[iterr]>0):
                         NewState.append(1)
                         iter += 1
                     else:
                         NewState.append(0)
                         iter += 1
                 else:
-                    if (int(StateListNeigh[iter][2])>= int(K[iter])):
+                    if (int(StateListNeigh[iter][2])>= int(K[iter])and BATTERY_STATE[iterr]>0):
                         NewState.append(1)
                         iter += 1
                     else:
                         NewState.append(0)
                         iter += 1
+                #Battery STATE
+                if (1 == int(STATE[iterr])):
+                    BATTERY_STATE[iterr] -= 1
+                iterr+=1
             #=====================================================================================
             print(STATE)
+            #BATTERY ALIVE
+            print(BATTERY_STATE)
             #ZAMIANA STATE PROBLEM
             STATE=NewState
             #CLEAR
