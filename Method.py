@@ -165,32 +165,35 @@ def Start():
         BATTERY_STATE.append(g.labelBattery.get())
     print(BATTERY_STATE)
     #Read neighb of onn LIST
-    StateListNeigh = []
-    def ReadState():
-        i = 1
-        for x in Neighb:
-            c=0
-            d=0
-            i = 1
-            for y in STATE:
-                if (x.find(str(i)+' ')==-1):
-                    i += 1
-                    continue
-                else:
-                    if (y==1):
-                        c+=1
-                    else:
-                        d+=1
-                    i+=1
-            StateListNeigh.append(str(c) + " " + str(d))
-    ReadState()
-    print(StateListNeigh)
     #BEFORE START ASSIGN SOME VARIABLE
     ii=0
-    NewState=[]
+
     def MainIter():
-        #for i in range(12):
+        NewState = []
+        StateListNeigh = []
+        global STATE
+        for i in range(5):
             iter = 0
+            def ReadState():
+                for x in Neighb:
+                    c = 0
+                    d = 0
+                    i = 1
+                    for y in STATE:
+                        if (x.find(str(i) + ' ') == -1):
+                            i += 1
+                            continue
+                        else:
+                            if (y == 1):
+                                c += 1
+                            else:
+                                d += 1
+                            i += 1
+                    StateListNeigh.append(str(c) + " " + str(d))
+            ReadState()
+            print(StateListNeigh)
+            NewState.clear()
+        #=====================================================================
         #FIrst ITeration
             for x in RULES:
                 if(x==1):# StateListNeigh[iter][2]<K[iter]
@@ -214,8 +217,13 @@ def Start():
                     else:
                         NewState.append(0)
                         iter += 1
+            #=====================================================================================
+            print(STATE)
+            #ZAMIANA STATE PROBLEM
+            STATE=NewState
+            #CLEAR
+            StateListNeigh.clear()
     MainIter()
-    print(NewState)
 
 
 
