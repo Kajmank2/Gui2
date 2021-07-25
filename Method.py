@@ -13,9 +13,6 @@ f_alavie=0
 minBatt=0
 avBatt=0
 maxBatt=0
-freq_kD=0
-freq_kC=0
-
 
 ListData = []  # Reading List Of Data #X #Y
 ListPOI = []  # List which contains POI #X #Y
@@ -70,7 +67,8 @@ def Start():
     t=0
     #NEIGHBOR FILE TXT
     ListSensorneigh=[]
-    ListSensorneighQ = []
+    ListSensorneighQ =[]
+    ListSensorneighQresult =[]
     #NEigh every singe Sensor
     Neighb=[]
     def OpenMYSensorNeighbour():  # find WSN grapph
@@ -167,10 +165,19 @@ def Start():
     #print(BATTERY_STATE)
     #Read neighb of onn LIST
     #BEFORE START ASSIGN SOME VARIABLE
+    #LIST SENSOR NEIGH result-2.txt
+    ListSensorneighQ.append("#")
+    ListSensorneighQ.append("# parameters of experiment")
+    ListSensorneighQ.append("#")
+    ListSensorneighQ.append("iter s1  s2 ........ sn")
+    #List Sensor neigh result 1.txt
+    ListSensorneighQresult.append("#")
+    ListSensorneighQresult.append("# parameters of experminet")
+    ListSensorneighQresult.append('#')
+    ListSensorneighQresult.append("# iter  q  freq kD freq kC freq kDC freq_s_ON freq_s_DEAD")
 
     def MainIter():
         converted_ListData = []
-        converted_listCalcSingleq=[]# remove /n
         NewState = []
         StateListNeigh = []
         SensorHelper = []  # HELPER LIST
@@ -224,9 +231,7 @@ def Start():
                 print(converted_ListData)
                 #ADD STATE TO THE LIST
                 #LIST TO TXT FILE
-                ListSensorneighQ.append("Sensor for file: :WSN-5d-test0.txt")
-                ListSensorneighQ.append("STATE" + str(STATE))
-                ListSensorneighQ.append("Battery_STATE" + str(BATTERY_STATE))
+                ListSensorneighQ.append(str(i) + "  " + str(STATE))
                 #ListSensorneighQ.append("#q    s    1 2 3 4 5   q1   q2   q3   q4   q5")
                 #FLATEN LIST
                 flaten_list=reduce(lambda z, y :z + y,ListPOI)
@@ -309,55 +314,33 @@ def Start():
                 finalStates = dict.fromkeys(arubaCloud)  # DELETE DUPLICATE
                 # COVERAGE Q
                 coverageQ = len(finalStates) / POIVALUE
-                '''
-                Lista = []
-                strPoi = ""
-                for x in chunkserPoi:
-                    for y in x:
-                        if (y[0:2] == '-1'):
-                            donothing()
-                        else:
-                            strPoi += y + "."
-                    Lista.append(strPoi)  # WSZYSTKIe POI ID z Pokryciem
-                    strPoi = ""
-                ListwihCov = []
-                asa = "0"
-                ListwihCovPercent = []
-                idCoverage = 1
-                for x in Lista:
-                    abc = x.split('.')
-                    helperCov = 0
-                    for z in abc:
-                        for y in finalStates:
-                            if (z[4:] == y):
-                                helperCov = helperCov + 1
-                    asa = str(helperCov)  # str(helperCov - calsum(ListwihCov))
-                    abc.clear()
-                    idCoverage += 1
-                    # Calculate % POV
-                    ListwihCov.append(asa)
-                # LIST CALCULATION
-                z = [int(x) for x in ListwihCov]
-                x = ([int(x) for x in IdPOICOV])
-                products = [a / b for a, b in zip(z, x)]
-                print(products)
-                '''
                 # CALC SENSOR ID TO TXT
-                ListSensorneighQ.append(
-                    str(round(coverageQ, 2)))
+                #helper Values
+                sensOn=STATE.count(1)
+                sensOff=STATE.count(0)
+                amountSens=len(STATE)
+                kd=str(g.labelkDvalue.get())
+                kc = str(g.labelkCvalue.get())
+                kdc=str(g.labelkDCvalue.get())
+                ListSensorneighQresult.append("    " + str(int(i))+ "  "+
+                    str(round(coverageQ, 2)) + "  " + kd+ "  "+kc + "  "+ kdc+ "  "+
+                                               str(round(sensOn/amountSens,2)) + "  " +str(round(sensOff/amountSens,2)))
 
                 def SaveFileSenss():
-                    with open("creates cov-5-WSN-5d-test-1.txt"
+                    with open("result2.txt"
                               "", 'w') as file:
                         for row in ListSensorneighQ:
                             s = "".join(map(str, row))
                             file.write(s + '\n')
+                def SaveFileSensss():
+                    with open("result1.txt"
+                              "", 'w') as file:
+                        for row in ListSensorneighQresult:
+                            s = "".join(map(str, row))
+                            file.write(s + '\n')
 
                 SaveFileSenss()
-                #print("SENSOR HELPER POID")
-                #print(SensorHelperPoiID)
-                #print("ALL POI COV")
-                #print(ALLPOICOV)
+                SaveFileSensss()
         #FIrst ITeration
             iterr = 0
             for x in RULES:
@@ -397,6 +380,8 @@ def Start():
             #print("BATTERY STATE")
             #print(BATTERY_STATE)
             #ZAMIANA STATE PROBLEM
+            if (NewState == STATE):
+                break
             STATE=NewState
             #CalcALLq()
             #CLEAR

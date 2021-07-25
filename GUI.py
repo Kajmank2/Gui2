@@ -27,7 +27,7 @@ def InitGui():
     #GLOVAL VALUE TO METHODS
     global labelkCvalue
     global labelkDvalue
-    global labelkDvalue
+    global labelkDCvalue
     global valuesRadiokCstate
     global valuesRadiokDstate
     global valuesRadiokDCstate
@@ -45,7 +45,7 @@ def InitGui():
     labelkCvalue.set("0.33")
     labelkDCvalue.set("0.34")
     labelBattery.set("10")
-    labelIterationNumb.set("1")
+    labelIterationNumb.set("8")
     labelMuttiruns.set("1")
     def choiceD(text):
         valuesRadiokDstate.set(text)

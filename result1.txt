@@ -1,0 +1,6 @@
+#
+# parameters of experminet
+#
+# iter  q  freq kD freq kC freq kDC freq_s_ON freq_s_DEAD
+    0  1.0  0.33  0.33  0.34  0.42  0.58
+    1  1.0  0.33  0.33  0.34  0.33  0.67
