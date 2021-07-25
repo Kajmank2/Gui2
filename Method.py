@@ -35,7 +35,7 @@ def OpenSensorWSN():
     #LOAD POI
     global AmountWSN
     global Radius # assigment variable global
-    with open("POI36.csv") as file:  # CHANGE TO PO 4412
+    with open("POI441.csv") as file:  # CHANGE TO PO 4412
         reader = csv.reader(file)
         for row in reader:
             ListPOI.append(row)
@@ -70,6 +70,7 @@ def Start():
     t=0
     #NEIGHBOR FILE TXT
     ListSensorneigh=[]
+    ListSensorneighQ = []
     #NEigh every singe Sensor
     Neighb=[]
     def OpenMYSensorNeighbour():  # find WSN grapph
@@ -150,7 +151,7 @@ def Start():
         else:
             print('KDC')
             RULES.append(3)
-    print(RULES)
+    #print(RULES)
     # K -APPROACH [1..N]
     for x in range(int(AmountWSN)):
         if(RULES[x]==1):
@@ -159,20 +160,26 @@ def Start():
             K.append(g.valuesRadiokCstate.get())
         else:
             K.append(g.valuesRadiokDCstate.get())
-    print(K)
+    #print(K)
     # Battery State [1..N]
     for x in range(int(AmountWSN)):
         BATTERY_STATE.append(int(g.labelBattery.get()))
-    print(BATTERY_STATE)
+    #print(BATTERY_STATE)
     #Read neighb of onn LIST
     #BEFORE START ASSIGN SOME VARIABLE
-    ii=0
 
     def MainIter():
+        converted_ListData = []
+        converted_listCalcSingleq=[]# remove /n
         NewState = []
         StateListNeigh = []
+        SensorHelper = []  # HELPER LIST
+        POIVALUE = 441
+        IdPOICOV=[]
+        SensorHelperPoiID=[]
+        ALLPOICOV=[]
         global STATE
-        for i in range(15):
+        for i in range(int(g.labelIterationNumb.get())):
             iter = 0
             def ReadState():
                 for x in Neighb:
@@ -191,9 +198,166 @@ def Start():
                             i += 1
                     StateListNeigh.append(str(c) + " " + str(d))
             ReadState()
+            print("STATE LIST NEIGH")
             print(StateListNeigh)
             NewState.clear()
         #=====================================================================
+            def CalcALLq(): # WRITE COVERAGE METHOD
+                def circle(x1, y1, x2, y2, r1, r2):
+                    distSq = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+                    radSumSq = (r1 + r2) * (r1 + r2)
+                    if (distSq == radSumSq):
+                        return 1
+                    elif (distSq > radSumSq):
+                        return -1
+                    else:
+                        return 0
+                #STATE #SENSORSTATES
+                #ListData#->XY
+                #ListPOI#->POI
+                variableAm=0
+
+                for x in ListData:
+                    converted_ListData.append(x.strip())
+                    variableAm += 1
+                print("COnverted List Data")
+                print(converted_ListData)
+                #ADD STATE TO THE LIST
+                #LIST TO TXT FILE
+                ListSensorneighQ.append("Sensor for file: :WSN-5d-test0.txt")
+                ListSensorneighQ.append("STATE" + str(STATE))
+                ListSensorneighQ.append("Battery_STATE" + str(BATTERY_STATE))
+                #ListSensorneighQ.append("#q    s    1 2 3 4 5   q1   q2   q3   q4   q5")
+                #FLATEN LIST
+                flaten_list=reduce(lambda z, y :z + y,ListPOI)
+                ids=6
+                #COUNT COVERAE EVERY SENSOR
+                for x in converted_ListData:
+                    helper = 0
+                    for y in flaten_list:
+                        if (y[0] == '0' or y[0:2] == '5;' or y[0:2] == '8;'):  # SOLUCJA ZAPISAC CSV JAKO CIĄG STRINGÓW NIE OSOBNĄ LISTE
+                            SensorHelper.append(str(
+                                circle(int(re.search(r'\d+', x[0:2]).group()), int(re.search(r'\d+', x[5:7]).group()),
+                                       int(y[0]), int(y[2:]), int(Radius), int(Radius))))
+                            ys = str(
+                                circle(int(re.search(r'\d+', x[0:2]).group()), int(re.search(r'\d+', x[5:7]).group()),
+                                       int(y[0]), int(y[2:]), int(Radius), int(Radius)))
+                            if (ys[0] == '0'):
+                                donothing()
+                            else:
+                                helper += 1  # VALUE WHEN SENSOR STATE IS 1
+                        elif (y[0:3] == '100'):
+                            SensorHelper.append(
+                                str(circle(int(re.search(r'\d+', x[0:2]).group()),
+                                           int(re.search(r'\d+', x[5:7]).group()), int(y[0:3]), int(y[4:]),
+                                           int(Radius), int(Radius))))
+                            ys = str(
+                                circle(int(re.search(r'\d+', x[0:2]).group()), int(re.search(r'\d+', x[5:7]).group()),
+                                       int(y[0:3]), int(y[4:]), int(Radius), int(Radius)))
+                            if (ys[0] == '0'):
+                                donothing()
+                            else:
+                                helper += 1
+                        else:
+                            SensorHelper.append(
+                                str(circle(int(re.search(r'\d+', x[0:2]).group()),
+                                           int(re.search(r'\d+', x[5:7]).group()), int(y[0:2]), int(y[3:]),
+                                           int(Radius), int(Radius))))
+                            ys = str(
+                                circle(int(re.search(r'\d+', x[0:2]).group()), int(re.search(r'\d+', x[5:7]).group()),
+                                       int(y[0:2]), int(y[3:]),int(Radius), int(Radius)))
+                            if (ys[0] == '0'):
+                                donothing()
+                            else:
+                                helper += 1
+
+                    coverage = POIVALUE - helper  # ZMINA Z 411
+                    IdPOICOV.append(str(coverage))  # ID + AMOUNT OF
+                    pom = 0
+                    for x in SensorHelper:
+                        ALLPOICOV.append(x)
+                        SensorHelperPoiID.append(x + " - " + str(pom))
+                        pom = pom + 1
+                    # ALLPOICOV.extend(SensorHelper)
+                    ids += 1
+                    SensorHelper.clear()
+                chunkser = [ALLPOICOV[x:x + POIVALUE] for x in range(0, len(ALLPOICOV), POIVALUE)]  #
+                chunkserPoi = [SensorHelperPoiID[x:x + POIVALUE] for x in range(0, len(SensorHelperPoiID), POIVALUE)]
+                idstates = 0
+                arubaCloud = []
+                counterchuk = 0
+                abc = ""
+                for x in STATE:
+                    if (x == 0):
+                        donothing()
+                    else:
+                        trucrypt = chunkser[counterchuk]
+                        for y in chunkser:
+                            printerek = 0
+                            amount = 0
+                            for z in y:
+                                if (trucrypt[printerek] == z):
+                                    if (z == '0'):  # and trucrypt != y
+                                        amount = amount + 1
+                                        arubaCloud.append(str(printerek))  # USUNIECIE PRINTERKA
+                                else:
+                                    donothing()
+                                printerek = printerek + 1
+                            abc += str(idstates) + "-" + str(amount) + "\n"  # AMOUNT + STATES ON
+                    counterchuk = counterchuk + 1
+                    idstates = idstates + 1
+                finalStates = dict.fromkeys(arubaCloud)  # DELETE DUPLICATE
+                # COVERAGE Q
+                coverageQ = len(finalStates) / POIVALUE
+                '''
+                Lista = []
+                strPoi = ""
+                for x in chunkserPoi:
+                    for y in x:
+                        if (y[0:2] == '-1'):
+                            donothing()
+                        else:
+                            strPoi += y + "."
+                    Lista.append(strPoi)  # WSZYSTKIe POI ID z Pokryciem
+                    strPoi = ""
+                ListwihCov = []
+                asa = "0"
+                ListwihCovPercent = []
+                idCoverage = 1
+                for x in Lista:
+                    abc = x.split('.')
+                    helperCov = 0
+                    for z in abc:
+                        for y in finalStates:
+                            if (z[4:] == y):
+                                helperCov = helperCov + 1
+                    asa = str(helperCov)  # str(helperCov - calsum(ListwihCov))
+                    abc.clear()
+                    idCoverage += 1
+                    # Calculate % POV
+                    ListwihCov.append(asa)
+                # LIST CALCULATION
+                z = [int(x) for x in ListwihCov]
+                x = ([int(x) for x in IdPOICOV])
+                products = [a / b for a, b in zip(z, x)]
+                print(products)
+                '''
+                # CALC SENSOR ID TO TXT
+                ListSensorneighQ.append(
+                    str(round(coverageQ, 2)))
+
+                def SaveFileSenss():
+                    with open("creates cov-5-WSN-5d-test-1.txt"
+                              "", 'w') as file:
+                        for row in ListSensorneighQ:
+                            s = "".join(map(str, row))
+                            file.write(s + '\n')
+
+                SaveFileSenss()
+                #print("SENSOR HELPER POID")
+                #print(SensorHelperPoiID)
+                #print("ALL POI COV")
+                #print(ALLPOICOV)
         #FIrst ITeration
             iterr = 0
             for x in RULES:
@@ -222,16 +386,26 @@ def Start():
                 if (1 == int(STATE[iterr])):
                     BATTERY_STATE[iterr] -= 1
                 iterr+=1
+
             #=====================================================================================
+            #QOVERAGE
+            print("STATE")
             print(STATE)
+            #======================================================================ALL COV Q ##################################
+            CalcALLq()
             #BATTERY ALIVE
-            print(BATTERY_STATE)
+            #print("BATTERY STATE")
+            #print(BATTERY_STATE)
             #ZAMIANA STATE PROBLEM
             STATE=NewState
+            #CalcALLq()
             #CLEAR
             StateListNeigh.clear()
     MainIter()
-
+    #print("LISTA POI")
+    #print(ListPOI)
+    #print("LISTA DATA")
+    #print(ListData)
 
 
 

@@ -32,6 +32,7 @@ def InitGui():
     global valuesRadiokDstate
     global valuesRadiokDCstate
     global labelBattery
+    global labelIterationNumb
     main_window=tk.Tk()
     labelkDvalue = tk.StringVar()
     labelkCvalue = tk.StringVar()
@@ -44,7 +45,7 @@ def InitGui():
     labelkCvalue.set("0.33")
     labelkDCvalue.set("0.34")
     labelBattery.set("10")
-    labelIterationNumb.set("20")
+    labelIterationNumb.set("1")
     labelMuttiruns.set("1")
     def choiceD(text):
         valuesRadiokDstate.set(text)
@@ -100,7 +101,7 @@ def InitGui():
     tk.Entry(main_window, textvariable=labelMuttiruns, width=10, borderwidth=5).grid(row=17, column=1)
     tk.Label(text="set seed").grid(row=18, column=0)
     tk.Entry(main_window, textvariable=labelSetSeed, width=10, borderwidth=5).grid(row=18, column=1)
-    tk.Button(main_window,text="Start",command=m.Start).grid(row=19,column=1)
+    tk.Button(main_window,text="Start by iter",command=m.Start).grid(row=19,column=1)
     #==========================================================#
     #GUI DATA - > #READ POI #READ DATA X,Y
     tk.Button(main_window, text="READ WSN", command=m.OpenSensorWSN).grid(row=19, column=4)

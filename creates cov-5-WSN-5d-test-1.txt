@@ -1,0 +1,4 @@
+Sensor for file: :WSN-5d-test0.txt
+STATE[1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0]
+Battery_STATE[4, 5, 5, 4, 4, 5, 5, 5, 5, 4, 4, 5]
+1.0
