@@ -45,11 +45,11 @@ def OpenSensorWSN():
         reader = csv.reader(file)
         for row in reader:
             ListPOI.append(row)
-        #ms.showinfo(title=None, message="Read Sensor Data To Experiment")
-        #text_file = filedialog.askopenfilename(initialdir="C:/", title="Open TextFile",
-        #                                       filetypes=(("Text Files", "*.txt"),))
-        #text_file = open(text_file, 'r')
-        text_file=open('WSN-5d-r35.txt','r')
+        ms.showinfo(title=None, message="Read Sensor Data To Experiment")
+        text_file = filedialog.askopenfilename(initialdir="C:/", title="Open TextFile",
+                                               filetypes=(("Text Files", "*.txt"),))
+        text_file = open(text_file, 'r')
+        #text_file=open('WSN-5d-r35.txt','r')
         radiusTxt=text_file.name
         radius=''
         #RADIUS VALUE FROM FILE
@@ -145,6 +145,8 @@ def Start():
     OpenMYSensorNeighbour()
     #STATE LIST | RANDOM STATE FORM 0,1
     for x in range(int(AmountWSN)):
+        if(len(g.labelSetSeed.get())>0):
+            seed(g.labelSetSeed.get())
         STATE.append(randint(0,1))
     print("FIRST STATE ")
     print(STATE)
@@ -789,8 +791,8 @@ def Startstandard():
         plt.plot(iters)
         plt.xlabel("Iter")
         plt.ylabel("q")
-        #plt.savefig('Qoverage.png')
         plt.ylim(ymin=0)
+        plt.savefig('Qoverage.png')
         plt.show()
     Plotq()
     #battery state plot

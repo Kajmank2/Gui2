@@ -33,6 +33,7 @@ def InitGui():
     global valuesRadiokDCstate
     global labelBattery
     global labelIterationNumb
+    global labelSetSeed
     main_window=tk.Tk()
     labelkDvalue = tk.StringVar()
     labelkCvalue = tk.StringVar()
@@ -47,6 +48,7 @@ def InitGui():
     labelBattery.set("10")
     labelIterationNumb.set("8")
     labelMuttiruns.set("1")
+    #labelSetSeed.set(123)
     def choiceD(text):
         valuesRadiokDstate.set(text)
     def choiceC(text):
@@ -90,7 +92,7 @@ def InitGui():
     tk.Label(text="prob kD").grid(row=13,column=0)
     tk.Entry(main_window, textvariable=labelkDvalue, width=10, borderwidth=5).grid(row=14,column=0)
     tk.Label(text="prob kC").grid(row=13, column=1)
-    tk.Entry(main_window, textvariable=labelkDCvalue, width=10, borderwidth=5).grid(row=14, column=1)
+    tk.Entry(main_window, textvariable=labelkCvalue, width=10, borderwidth=5).grid(row=14, column=1)
     tk.Label(text="prob kDC").grid(row=13, column=2)
     tk.Entry(main_window, textvariable=labelkDCvalue, width=10, borderwidth=5).grid(row=14, column=2)
     tk.Label(text="Battery unit").grid(row=15,column=0)
@@ -99,8 +101,8 @@ def InitGui():
     tk.Entry(main_window, textvariable=labelIterationNumb, width=10, borderwidth=5).grid(row=16, column=1)
     #tk.Label(text="Multiruns").grid(row=17, column=0)
    # tk.Entry(main_window, textvariable=labelMuttiruns, width=10, borderwidth=5).grid(row=17, column=1)
-    #tk.Label(text="set seed").grid(row=18, column=0)
-    #tk.Entry(main_window, textvariable=labelSetSeed, width=10, borderwidth=5).grid(row=18, column=1)
+    tk.Label(text="set seed").grid(row=18, column=0)
+    tk.Entry(main_window, textvariable=labelSetSeed, width=10, borderwidth=5).grid(row=18, column=1)
     tk.Button(main_window,text="Start by iter",command=m.Start).grid(row=20,column=1)
     tk.Button(main_window, text="Start ", command=m.Startstandard).grid(row=19, column=1)
     #==========================================================#
