@@ -1,0 +1,386 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html40/loose.dtd">
+
+<html>
+         
+  <head>
+    <title>Module: PlotItems</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+
+        <p><i><a href="../index.html">Table of Contents</a></i></p>
+        
+        <table border="0" cellpadding="5" cellspacing="0" width="100%">
+        <tr>
+            <th rowspan="2"
+                valign="top"
+                align="left"
+                width="10%"
+                bgcolor="#88bbee"><font color="#000000">Module: PlotItems</font>
+            </th>
+            <th bgcolor="#88bbee"
+                width="90%"
+                align="right"><font color="#000000">Gnuplot/PlotItems.py</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<dl>
+<dt>PlotItems.py</dt>
+<dd>Objects that can be plotted by Gnuplot.</dd>
+</dl>
+<p>This module contains several types of PlotItems.  PlotItems can be
+plotted by passing them to a Gnuplot.Gnuplot object.  You can derive
+your own classes from the PlotItem hierarchy to customize their
+behavior.</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Imported modules">Imported modules</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<b>import</b> <a href="Errors.html">Errors</a><br>
+<b>import</b> Numeric<br>
+<b>import</b> <a href="gp.html">gp</a><br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-os.html">os</a><br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-string.html">string</a><br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-tempfile.html">tempfile</a><br>
+<b>import</b> <a href="http://www.python.org/doc/current/lib/module-types.html">types</a><br>
+<b>import</b> <a href="utils.html">utils</a><br>
+
+</td></tr>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Functions">Functions</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<a href="#Data">Data</a><br>
+<a href="#File">File</a><br>
+<a href="#GridData">GridData</a><br>
+
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Data"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">Data&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+Data ( *set,  *keyw )
+
+</pre></font>
+
+<h3>Create and return a _FileItem representing the data from *set.</h3>
+<p>    Create a <code>_FileItem</code> object (which is a type of <code>PlotItem</code>) out of
+    one or more Float Python Numeric arrays (or objects that can be
+    converted to a Float Numeric array).  If the routine is passed a
+    single with multiple dimensions, then the last index ranges over
+    the values comprising a single data point (e.g., [&lt;x&gt;, &lt;y&gt;,
+    &lt;sigma&gt;]) and the rest of the indices select the data point.  If
+    passed a single array with 1 dimension, then each point is
+    considered to have only one value (i.e., by default the values
+    will be plotted against their indices).  If the routine is passed
+    more than one array, they must have identical shapes, and then
+    each data point is composed of one point from each array.  E.g.,
+    <code>Data(x,x**2)</code> is a <code>PlotItem</code> that represents x squared as a
+    function of x.  For the output format, see the comments for
+    <code>write_array()</code>.</p>
+<p>    How the data are written to gnuplot depends on the <code>inline</code>
+    argument and preference settings for the platform in use.</p>
+<h4>    Keyword arguments:</h4>
+<dl>
+<dt>        <code>cols=&lt;tuple&gt;</code></dt>
+<dd>write only the specified columns from each
+            data point to the file.  Since cols is used by python, the
+            columns should be numbered in the python style (starting
+            from 0), not the gnuplot style (starting from 1).</dd>
+<dt>        <code>inline=&lt;bool&gt;</code></dt>
+<dd>transmit the data to gnuplot <code>inline</code>
+            rather than through a temporary file.  The default is the
+            value of gp.GnuplotOpts.prefer_inline_data.</dd>
+</dl>
+<p>    The keyword arguments recognized by <code>_FileItem</code> can also be used
+    here.</p>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="File"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">File&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+File ( filename,  **keyw )
+
+</pre></font>
+
+<h3>Construct a _FileItem object referring to an existing file.</h3>
+<p>    This is a convenience function that just returns a _FileItem that
+    wraps the filename.</p>
+<p>    &lt;filename&gt; is a string holding the filename of an existing file.
+    The keyword arguments are the same as those of the _FileItem
+    constructor.</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Exceptions">Exceptions</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+Errors.OptionError('Argument (%s) must be a filename' %( filename, ) )<br>
+
+</td></tr>
+</table>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="GridData"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">GridData&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+GridData (
+        data,
+        xvals=None,
+        yvals=None,
+        inline=_unset,
+        **keyw,
+        )
+
+</pre></font>
+
+<h3>Return a _FileItem representing a function of two variables.</h3>
+<p>    <code>GridData</code> represents a function that has been tabulated on a
+    rectangular grid.  The data are written to a file; no copy is kept
+    in memory.</p>
+<h4>    Arguments:</h4>
+<dl>
+<dt>        <code>data</code></dt>
+<dd>the data to plot: a 2-d array with dimensions
+            (numx,numy).</dd>
+<dt>        <code>xvals</code></dt>
+<dd>a 1-d array with dimension <code>numx</code></dd>
+<dt>        <code>yvals</code></dt>
+<dd>a 1-d array with dimension <code>numy</code></dd>
+<dt>        <code>binary=&lt;bool&gt;</code></dt>
+<dd>send data to gnuplot in binary format?</dd>
+<dt>        <code>inline=&lt;bool&gt;</code></dt>
+<dd>send data to gnuplot &quot;inline&quot;?</dd>
+</dl>
+<p>    Note the unusual argument order!  The data are specified <em>before</em>
+    the x and y values.  (This inconsistency was probably a mistake;
+    after all, the default xvals and yvals are not very useful.)</p>
+<p>    <code>data</code> must be a data array holding the values of a function
+    f(x,y) tabulated on a grid of points, such that 'data<a href="#refi,j">[i,j]</a> ==
+    f(xvals<a href="#refi">[i]</a>, yvals<a href="#refj">[j]</a>)'.  If <code>xvals</code> and/or <code>yvals</code> are omitted,
+    integers (starting with 0) are used for that coordinate.  The data
+    are written to a temporary file; no copy of the data is kept in
+    memory.</p>
+<p>    If <code>binary=0</code> then the data are written to a datafile as <code>x y
+    f(x,y)</code> triplets (y changes most rapidly) that can be used by
+    gnuplot's <code>splot</code> command.  Blank lines are included each time the
+    value of x changes so that gnuplot knows to plot a surface through
+    the data.</p>
+<p>    If <code>binary=1</code> then the data are written to a file in a binary
+    format that <code>splot</code> can understand.  Binary format is faster and
+    usually saves disk space but is not human-readable.  If your
+    version of gnuplot doesn't support binary format (it is a
+    recently-added feature), this behavior can be disabled by setting
+    the configuration variable
+    <code>gp.GnuplotOpts.recognizes_binary_splot=0</code> in the appropriate
+    gp*.py file.</p>
+<p>    Thus if you have three arrays in the above format and a Gnuplot
+    instance called g, you can plot your data by typing
+    <code>g.splot(Gnuplot.GridData(data,xvals,yvals))</code>.</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Exceptions">Exceptions</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+Errors.DataError( 'The size of xvals must be the same as the size of ' 'the first dimension of the data array' )<br>
+Errors.DataError( 'The size of yvals must be the same as the size of ' 'the second dimension of the data array' )<br>
+Errors.DataError( 'data array must be two-dimensional' )<br>
+Errors.OptionError( 'binary inline data not supported' )<br>
+
+</td></tr>
+</table>
+</td></tr>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Classes">Classes</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<table border="0" cellpadding="3" cellspacing="0">
+<tr><td valign="top" align="left"><p><a href="PlotItems/Func.html">Func</a></p></td><td valign="top" align="left">
+<p>Represents a mathematical expression to plot.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="PlotItems/PlotItem.html">PlotItem</a></p></td><td valign="top" align="left">
+<p>Plotitem represents an item that can be plotted by gnuplot.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="PlotItems/_FileItem.html">_FileItem</a></p></td><td valign="top" align="left">
+<p>A PlotItem representing a file that contains gnuplot data.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="PlotItems/_InlineFileItem.html">_InlineFileItem</a></p></td><td valign="top" align="left">
+<p>A _FileItem that actually indicates inline data.</p>
+</td></tr>
+<tr><td valign="top" align="left"><p><a href="PlotItems/_TempFileItem.html">_TempFileItem</a></p></td><td valign="top" align="left"></td></tr>
+<tr><td valign="top" align="left"><p><a href="PlotItems/_unset.html">_unset</a></p></td><td valign="top" align="left">
+<p>Used to represent unset keyword arguments.</p>
+</td></tr>
+</table>
+</td></tr>
+</td></tr>
+</table>
+
+        </td>
+        </tr>
+        </table>
+
+        <hr>
+
+        <p><i><a href="../index.html">Table of Contents</a></i></p>
+
+        <font size="-2"><i>This document was automatically generated
+        on Sun Oct 19 17:10:22 2003 by
+        <a href="http://happydoc.sourceforge.net">HappyDoc</a> version
+        2.1</i></font>
+        
+        </body>
+        </html>
+        

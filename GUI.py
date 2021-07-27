@@ -97,11 +97,12 @@ def InitGui():
     tk.Entry(main_window, textvariable=labelBattery, width=10, borderwidth=5).grid(row=15, column=1)
     tk.Label(text="iter numb").grid(row=16, column=0)
     tk.Entry(main_window, textvariable=labelIterationNumb, width=10, borderwidth=5).grid(row=16, column=1)
-    tk.Label(text="Multiruns").grid(row=17, column=0)
-    tk.Entry(main_window, textvariable=labelMuttiruns, width=10, borderwidth=5).grid(row=17, column=1)
-    tk.Label(text="set seed").grid(row=18, column=0)
-    tk.Entry(main_window, textvariable=labelSetSeed, width=10, borderwidth=5).grid(row=18, column=1)
-    tk.Button(main_window,text="Start by iter",command=m.Start).grid(row=19,column=1)
+    #tk.Label(text="Multiruns").grid(row=17, column=0)
+   # tk.Entry(main_window, textvariable=labelMuttiruns, width=10, borderwidth=5).grid(row=17, column=1)
+    #tk.Label(text="set seed").grid(row=18, column=0)
+    #tk.Entry(main_window, textvariable=labelSetSeed, width=10, borderwidth=5).grid(row=18, column=1)
+    tk.Button(main_window,text="Start by iter",command=m.Start).grid(row=20,column=1)
+    tk.Button(main_window, text="Start ", command=m.Startstandard).grid(row=19, column=1)
     #==========================================================#
     #GUI DATA - > #READ POI #READ DATA X,Y
     tk.Button(main_window, text="READ WSN", command=m.OpenSensorWSN).grid(row=19, column=4)

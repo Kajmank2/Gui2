@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html40/loose.dtd">
+
+<html>
+         
+  <head>
+    <title>Class: _FileItem</title>
+  </head>
+
+  <body bgcolor="#ffffff">
+
+        <p><i><a href="../../index.html">Table of Contents</a></i></p>
+        
+        <table border="0" cellpadding="5" cellspacing="0" width="100%">
+        <tr>
+            <th rowspan="2"
+                valign="top"
+                align="left"
+                width="10%"
+                bgcolor="#88bbee"><font color="#000000">Class: _FileItem</font>
+            </th>
+            <th bgcolor="#88bbee"
+                width="90%"
+                align="right"><font color="#000000">Gnuplot/PlotItems.py</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<h3>A PlotItem representing a file that contains gnuplot data.</h3>
+<p>    This class is not meant for users but rather as a base class for
+    other types of FileItem.</p>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Base Classes">Base Classes</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<a href="PlotItem.html">PlotItem</a><br>
+
+</td></tr>
+</table>
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Methods">Methods</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+<a href="#__init__">__init__</a><br>
+<a href="#get_base_command_string">get_base_command_string</a><br>
+<a href="#set_option_binary">set_option_binary</a><br>
+<a href="#set_option_colonsep">set_option_colonsep</a><br>
+
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="__init__"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">__init__&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+__init__ (
+        self,
+        filename,
+        **keyw,
+        )
+
+</pre></font>
+
+<h3>Represent a PlotItem that gnuplot treates as a file.</h3>
+<p>        This class holds the information that is needed to construct
+        the plot command line, including options that are specific to
+        file-like gnuplot input.</p>
+<p>        &lt;filename&gt; is a string representing the filename to be passed
+        to gnuplot within quotes.  It may be the name of an existing
+        file, <code>-</code> for inline data, or the name of a named pipe.</p>
+<h4>        Keyword arguments:</h4>
+<dl>
+<dt>            <code>using=&lt;int&gt;</code></dt>
+<dd>plot that column against line number</dd>
+<dt>            <code>using=&lt;tuple&gt;</code></dt>
+<dd>plot using a:b:c:d etc.  Elements in
+                the tuple that are None are output as the empty
+                string.</dd>
+<dt>            <code>using=&lt;string&gt;</code></dt>
+<dd>plot `using &lt;string&gt;' (allows gnuplot's
+                arbitrary column arithmetic)</dd>
+<dt>            <code>every=&lt;value&gt;</code></dt>
+<dd>plot <code>every &lt;value&gt;</code>.  &lt;value&gt; is
+                formatted as for <code>using</code> option.</dd>
+<dt>            <code>index=&lt;value&gt;</code></dt>
+<dd>plot <code>index &lt;value&gt;</code>.  &lt;value&gt; is
+                formatted as for <code>using</code> option.</dd>
+<dt>            <code>binary=&lt;boolean&gt;</code></dt>
+<dd>data in the file is in binary format
+                (this option is only allowed for grid data for splot).</dd>
+<dt>            <code>smooth=&lt;string&gt;</code></dt>
+<dd>smooth the data.  Option should be
+                <code>unique</code>, <code>csplines</code>, <code>acsplines</code>, <code>bezier</code>, or
+                <code>sbezier</code>.</dd>
+</dl>
+<p>        The keyword arguments recognized by <code>PlotItem</code> can also be
+        used here.</p>
+<p>        Note that the <code>using</code> option is interpreted by gnuplot, so
+        columns must be numbered starting with 1.</p>
+<p>        By default, gnuplot uses the name of the file plus any <code>using</code>
+        option as the dataset title.  If you want another title, set
+        it explicitly using the <code>title</code> option.</p>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="get_base_command_string"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">get_base_command_string&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+get_base_command_string ( self )
+
+</pre></font>
+
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="set_option_binary"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">set_option_binary&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+set_option_binary ( self,  binary )
+
+</pre></font>
+
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Exceptions">Exceptions</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+Errors.OptionError( 'Gnuplot.py is currently configured to reject binary data' )<br>
+
+</td></tr>
+</table>
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="set_option_colonsep"></a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">set_option_colonsep&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        <font color="#000088"><pre>
+set_option_colonsep (
+        self,
+        name,
+        value,
+        )
+
+</pre></font>
+
+<table border="0" cellpadding="5" cellspacing="0" width="100%">
+
+        <tr>
+            <th bgcolor="#99ccff"
+                rowspan="2"
+                valign="top"
+                align="left"
+                width="20%"
+                >
+                <font color="#000000">
+                  <a name="Exceptions">Exceptions</a>&nbsp;
+                </font>
+            </th>
+            <th bgcolor="#99ccff"
+                valign="top"
+                align="left"
+                width="80%"
+                >
+                <font color="#000000">&nbsp;</font>
+            </th>
+        </tr>
+        <tr>
+        <td>
+        
+Errors.OptionError('%s=%s' %( name, value, ) )<br>
+
+</td></tr>
+</table>
+</td></tr>
+</td></tr>
+</table>
+
+        </td>
+        </tr>
+        </table>
+
+        <hr>
+
+        <p><i><a href="../../index.html">Table of Contents</a></i></p>
+
+        <font size="-2"><i>This document was automatically generated
+        on Sun Oct 19 17:10:22 2003 by
+        <a href="http://happydoc.sourceforge.net">HappyDoc</a> version
+        2.1</i></font>
+        
+        </body>
+        </html>
+        
