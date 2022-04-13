@@ -1,12 +1,5 @@
-import random
-import csv
-import re
-from functools import reduce
-from tkinter import filedialog
-from  tkinter import messagebox as ms
 import Method as m
 import tkinter as tk
-import os
 Pi=3.14
 ListPOI=[] #List which contains POI #X #Y
 #LABELS VALUE

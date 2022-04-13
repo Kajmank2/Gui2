@@ -1,10 +1,6 @@
 import GUI as g
-import os
-import sys
-import Iteration as it
 import csv
 import matplotlib.pyplot as plt
-import matplotlib
 from random import *
 import re
 from functools import reduce
@@ -336,6 +332,8 @@ def Start():
                 kd=str(g.labelkDvalue.get())
                 kc = str(g.labelkCvalue.get())
                 kdc=str(g.labelkDCvalue.get())
+                FreqOff.append(round(sensOff / amountSens, 2))
+                FreqOn.append(round(sensOn / amountSens, 2))
                 iters.append(str(round(coverageQ, 2)))
                 ListSensorneighQresult.append("    " + str(int(i))+ "  "+
                     str(round(coverageQ, 2)) + "  " + kd+ "  "+kc + "  "+ kdc+ "  "+
@@ -415,8 +413,8 @@ def Start():
         plt.plot(iters)
         plt.xlabel("Iter")
         plt.ylabel("q")
-        #plt.savefig('Qoverage.png')
         plt.axis([0,None,0,None])
+        plt.savefig('Qoverage.png')
         plt.show()
     Plotq()
     #battery state plot
